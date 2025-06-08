@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Speech synthesis Demo</title>
+</head>
+
+<body>
+    <h1>click the button to hear the Speech</h1>
+    <button onclick="speakText()">Speak</button>
+
+    <script>
+        function speakText() {
+            const text = "behen ki choot";
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+
+</html>

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
+import RulesModal from './RulesModal';
+import GuessInput from './GuessInput';
 
 
 // Special cases that might cause issues in the game logic
@@ -400,27 +402,7 @@ function App() {
         </button>
       </div>
       {showRules && (
-        <div style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: colorScheme.background,
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 0 10px rgba(0,0,0,0.5)',
-          zIndex: 1000
-        }}>
-          <h2>Game Rules</h2>
-          <ul>
-            <li>Your goal is to find a path from the start country to the end country.</li>
-            <li>You can only move to neighboring countries.</li>
-            <li>You have a limited number of turns to reach the destination.</li>
-            <li>The optimal path is the shortest route between the two countries.</li>
-            <li>Use hints wisely - you only get one per game!</li>
-          </ul>
-          <button onClick={toggleRules} style={{ backgroundColor: colorScheme.button, color: colorScheme.text }}>Close</button>
-        </div>
+        <RulesModal show={showRules} onClose={toggleRules} colorScheme={colorScheme} />
       )}
       <p className="journey">
         Let's travel from <strong>{startCountry}</strong> to <strong>{endCountry}</strong>!
@@ -428,31 +410,16 @@ function App() {
       <p className="subtitle">Can you find the optimal path?</p>
       <div className="game-container">
         <div className="input-container">
-          <input
-            type="text"
-            value={currentGuess}
-            onChange={handleInputChange}
-            onKeyPress={(e) => e.key === 'Enter' && handleGuess()}
-            placeholder="Enter a country name"
-            disabled={gameOver}
-            style={{ backgroundColor: colorScheme.button, color: colorScheme.text }}
+          <GuessInput
+            currentGuess={currentGuess}
+            onInputChange={handleInputChange}
+            onGuess={handleGuess}
+            onSuggestionClick={handleSuggestionClick}
+            suggestions={suggestions}
+            remainingTurns={remainingTurns}
+            gameOver={gameOver}
+            colorScheme={colorScheme}
           />
-          <button
-            onClick={handleGuess}
-            disabled={gameOver || remainingTurns <= 0}
-            style={{ backgroundColor: colorScheme.button, color: colorScheme.text }}
-          >
-            Guess ({remainingTurns} turns left)
-          </button>
-          {suggestions.length > 0 && (
-            <ul className="suggestions" style={{ backgroundColor: colorScheme.button, color: colorScheme.text }}>
-              {suggestions.map((country, index) => (
-                <li key={index} onClick={() => handleSuggestionClick(country)}>
-                  {country}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
         <p className="feedback">{feedback}</p>
         <p className="hint">{hint}</p>

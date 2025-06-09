@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import GameMapPropTypes from './GameMap.propTypes';
 
 const GameMap = ({ geoJSONData, mapStyle, onEachFeature, colorScheme }) => (
   <div className="map-container" style={{ height: '350px', width: '100%', marginTop: '20px' }}>
@@ -19,5 +20,7 @@ const GameMap = ({ geoJSONData, mapStyle, onEachFeature, colorScheme }) => (
     </MapContainer>
   </div>
 );
+
+GameMap.propTypes = GameMapPropTypes;
 
 export default GameMap;

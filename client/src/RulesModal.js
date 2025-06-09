@@ -1,4 +1,5 @@
 import React from 'react';
+import RulesModalPropTypes from './RulesModal.propTypes';
 
 const RulesModal = ({ show, onClose, colorScheme }) => {
   if (!show) return null;
@@ -26,5 +27,7 @@ const RulesModal = ({ show, onClose, colorScheme }) => {
     </div>
   );
 };
+
+RulesModal.propTypes = RulesModalPropTypes;
 
 export default RulesModal;

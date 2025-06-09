@@ -1,4 +1,5 @@
 import React from 'react';
+import GuessInputPropTypes from './GuessInput.propTypes';
 
 const GuessInput = ({
   currentGuess,
@@ -38,5 +39,7 @@ const GuessInput = ({
     )}
   </div>
 );
+
+GuessInput.propTypes = GuessInputPropTypes;
 
 export default GuessInput;

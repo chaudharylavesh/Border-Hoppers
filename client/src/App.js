@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
 import RulesModal from './RulesModal';
 import GuessInput from './GuessInput';
+import GuessesList from './GuessesList';
+import GameMap from './GameMap';
 
 
 // Special cases that might cause issues in the game logic
@@ -432,27 +433,16 @@ function App() {
           Get Hint
         </button>
         <div className="map-container" style={{ height: '350px', width: '100%', marginTop: '20px' }}>
-          <MapContainer
-            center={[20, 0]}
-            zoom={2}
-            style={{ height: '100%', width: '100%' }}
-            zoomControl={false}
-          >
-            <ZoomControl position="bottomright" />
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
-              attribution='&copy; OpenStreetMap contributors &copy; CARTO'
-            />
-            {geoJSONData && <GeoJSON data={geoJSONData} style={mapStyle} onEachFeature={onEachFeature} />}
-          </MapContainer>
+          <GameMap
+            geoJSONData={geoJSONData}
+            mapStyle={mapStyle}
+            onEachFeature={onEachFeature}
+            colorScheme={colorScheme}
+          />
         </div>
         <div className="guesses-container">
           <h2>Your Journey So Far:</h2>
-          <ul className="guessed-countries">
-            {guessedCountries.map((country, index) => (
-              <li key={index}>{country}</li>
-            ))}
-          </ul>
+          <GuessesList guessedCountries={guessedCountries} />
         </div>
         {gameOver && (
           <button

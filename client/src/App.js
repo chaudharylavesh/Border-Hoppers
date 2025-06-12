@@ -5,6 +5,7 @@ import RulesModal from './RulesModal';
 import GuessInput from './GuessInput';
 import GuessesList from './GuessesList';
 import GameMap from './GameMap';
+import PostJourneyDebrief from './PostJourneyDebrief';
 
 
 // Special cases that might cause issues in the game logic
@@ -65,6 +66,7 @@ function App() {
   const [finalPlayerPath, setFinalPlayerPath] = useState([]);
   const [finalOptimalPath, setFinalOptimalPath] = useState([]);
   const [gameActive, setGameActive] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
 
 
   // Game timer logic - tracks elapsed time during active gameplay
@@ -221,6 +223,7 @@ function App() {
     setFinalPlayerPath([]);
     setFinalOptimalPath([]);
     setGameActive(true); // Start the timer
+    setShowDebrief(false);
   }, [countries, findShortestPath]);
 
 
@@ -300,6 +303,12 @@ function App() {
       setFeedback(`🎉 Congratulations! You've reached ${endCountry}!`);
       setGuessedCountries(finalPath);
       setGameOver(true);
+      
+      // Show debrief after a short delay
+      setTimeout(() => {
+        setShowDebrief(true);
+      }, 1500);
+      
       return;
     }
  
@@ -430,6 +439,12 @@ function App() {
     setShowRules(false);
   };
 
+  // Handle play again from debrief
+  const handlePlayAgain = () => {
+    setShowDebrief(false);
+    initializeGame();
+  };
+
 
   // Render loading state
   if (isLoading) return <div className="loading">Loading...</div>;
@@ -500,20 +515,7 @@ function App() {
           <GuessesList guessedCountries={guessedCountries} />
         </div>
         
-        {/* Debug display for Post-Journey Debrief data (remove in production) */}
-        {gameOver && finalPlayerPath.length > 0 && (
-          <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#333', borderRadius: '5px', fontSize: '12px' }}>
-            <h3>Post-Journey Debrief Data (Debug):</h3>
-            <p><strong>Final Game Time:</strong> {Math.floor(finalGameTime / 60)}:{(finalGameTime % 60).toString().padStart(2, '0')}</p>
-            <p><strong>Final Player Path:</strong> {finalPlayerPath.join(' → ')}</p>
-            <p><strong>Optimal Path:</strong> {finalOptimalPath.join(' → ')}</p>
-            <p><strong>Player Steps:</strong> {finalPlayerPath.length}</p>
-            <p><strong>Optimal Steps:</strong> {finalOptimalPath.length}</p>
-            <p><strong>Efficiency:</strong> {finalOptimalPath.length > 0 ? Math.round((finalOptimalPath.length / finalPlayerPath.length) * 100) : 0}%</p>
-          </div>
-        )}
-        
-        {gameOver && (
+        {gameOver && !showDebrief && (
           <button
             className="new-game"
             onClick={startNewGame}
@@ -523,6 +525,16 @@ function App() {
           </button>
         )}
       </div>
+
+      {/* Post-Journey Debrief Modal */}
+      {showDebrief && (
+        <PostJourneyDebrief
+          finalGameTime={finalGameTime}
+          finalPlayerPath={finalPlayerPath}
+          finalOptimalPath={finalOptimalPath}
+          onPlayAgain={handlePlayAgain}
+        />
+      )}
     </div>
   );
 }

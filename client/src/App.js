@@ -59,6 +59,33 @@ function App() {
   const [hintUsed, setHintUsed] = useState(false);
   const [showRules, setShowRules] = useState(false);
 
+  // New state variables for Post-Journey Debrief
+  const [gameTime, setGameTime] = useState(0);
+  const [finalGameTime, setFinalGameTime] = useState(0);
+  const [finalPlayerPath, setFinalPlayerPath] = useState([]);
+  const [finalOptimalPath, setFinalOptimalPath] = useState([]);
+  const [gameActive, setGameActive] = useState(false);
+
+
+  // Game timer logic - tracks elapsed time during active gameplay
+  useEffect(() => {
+    let interval = null;
+    
+    if (gameActive && !gameOver) {
+      interval = setInterval(() => {
+        setGameTime(prevTime => prevTime + 1);
+      }, 1000);
+    } else if (interval) {
+      clearInterval(interval);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [gameActive, gameOver]);
+
 
   // Fetch country data from REST Countries API
   // Using useCallback to memoize the function and prevent unnecessary re-renders
@@ -146,9 +173,7 @@ function App() {
   }, []);
 
 
-
-
-// Initialize the game - this sets up a new round
+  // Initialize the game - this sets up a new round
   const initializeGame = useCallback(() => {
     const continentOrder = ['Europe', 'Asia', 'Africa', 'Americas'];
     const randomContinent = continentOrder[Math.floor(Math.random() * continentOrder.length)];
@@ -189,6 +214,13 @@ function App() {
     setCurrentContinent(randomContinent);
     setHint('');
     setHintUsed(false);
+    
+    // Reset Post-Journey Debrief state variables
+    setGameTime(0);
+    setFinalGameTime(0);
+    setFinalPlayerPath([]);
+    setFinalOptimalPath([]);
+    setGameActive(true); // Start the timer
   }, [countries, findShortestPath]);
 
 
@@ -256,15 +288,32 @@ function App() {
  
     // Check if the player has reached the end country
     if (continent[endCountry].borders.includes(continent[guessedCountry].cca3)) {
+      const finalPath = [...guessedCountries, guessedCountry, endCountry];
+      const calculatedOptimalPath = findShortestPath(startCountry, endCountry, continent);
+      
+      // Capture Post-Journey Debrief data
+      setFinalGameTime(gameTime);
+      setFinalPlayerPath(finalPath);
+      setFinalOptimalPath(calculatedOptimalPath || []);
+      setGameActive(false); // Stop the timer
+      
       setFeedback(`🎉 Congratulations! You've reached ${endCountry}!`);
-      setGuessedCountries(prev => [...prev, endCountry]);
+      setGuessedCountries(finalPath);
       setGameOver(true);
       return;
     }
  
     // Check if the player has run out of turns
     if (remainingTurns - 1 <= 0) {
-      setFeedback(`Game over! You've run out of turns. The optimal path was: ${optimalPath.join(' -> ')}`);
+      const calculatedOptimalPath = findShortestPath(startCountry, endCountry, continent);
+      
+      // Capture data even for failed games (for potential future use)
+      setFinalGameTime(gameTime);
+      setFinalPlayerPath([...guessedCountries, guessedCountry]);
+      setFinalOptimalPath(calculatedOptimalPath || []);
+      setGameActive(false); // Stop the timer
+      
+      setFeedback(`Game over! You've run out of turns. The optimal path was: ${calculatedOptimalPath ? calculatedOptimalPath.join(' -> ') : 'Unable to calculate'}`);
       setGameOver(true);
       return;
     }
@@ -389,8 +438,6 @@ function App() {
 
 
   // Main render
-
-
   return (
     <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
       <h1>🌍 Border Hoppers</h1>
@@ -409,6 +456,14 @@ function App() {
         Let's travel from <strong>{startCountry}</strong> to <strong>{endCountry}</strong>!
       </p>
       <p className="subtitle">Can you find the optimal path?</p>
+      
+      {/* Display current game time during active gameplay */}
+      {gameActive && (
+        <p className="game-timer" style={{ textAlign: 'center', fontSize: '14px', color: '#bbb' }}>
+          Time: {Math.floor(gameTime / 60)}:{(gameTime % 60).toString().padStart(2, '0')}
+        </p>
+      )}
+      
       <div className="game-container">
         <div className="input-container">
           <GuessInput
@@ -444,6 +499,20 @@ function App() {
           <h2>Your Journey So Far:</h2>
           <GuessesList guessedCountries={guessedCountries} />
         </div>
+        
+        {/* Debug display for Post-Journey Debrief data (remove in production) */}
+        {gameOver && finalPlayerPath.length > 0 && (
+          <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#333', borderRadius: '5px', fontSize: '12px' }}>
+            <h3>Post-Journey Debrief Data (Debug):</h3>
+            <p><strong>Final Game Time:</strong> {Math.floor(finalGameTime / 60)}:{(finalGameTime % 60).toString().padStart(2, '0')}</p>
+            <p><strong>Final Player Path:</strong> {finalPlayerPath.join(' → ')}</p>
+            <p><strong>Optimal Path:</strong> {finalOptimalPath.join(' → ')}</p>
+            <p><strong>Player Steps:</strong> {finalPlayerPath.length}</p>
+            <p><strong>Optimal Steps:</strong> {finalOptimalPath.length}</p>
+            <p><strong>Efficiency:</strong> {finalOptimalPath.length > 0 ? Math.round((finalOptimalPath.length / finalPlayerPath.length) * 100) : 0}%</p>
+          </div>
+        )}
+        
         {gameOver && (
           <button
             className="new-game"

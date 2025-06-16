@@ -6,6 +6,8 @@ import GuessInput from './GuessInput';
 import GuessesList from './GuessesList';
 import GameMap from './GameMap';
 import PostJourneyDebrief from './PostJourneyDebrief';
+import FactToast from './FactToast';
+import factsData from './facts.json';
 
 
 // Special cases that might cause issues in the game logic
@@ -68,6 +70,9 @@ function App() {
   const [gameActive, setGameActive] = useState(false);
   const [showDebrief, setShowDebrief] = useState(false);
 
+  // Smart Facts system state
+  const [currentFact, setCurrentFact] = useState(null);
+
 
   // Game timer logic - tracks elapsed time during active gameplay
   useEffect(() => {
@@ -87,6 +92,33 @@ function App() {
       }
     };
   }, [gameActive, gameOver]);
+
+  // Auto-dismiss logic for fact toast
+  useEffect(() => {
+    let timeout = null;
+    
+    if (currentFact) {
+      timeout = setTimeout(() => {
+        setCurrentFact(null);
+      }, 7000); // 7 seconds
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [currentFact]);
+
+  // Function to get a random fact for a country
+  const getRandomFact = useCallback((countryName) => {
+    const countryFacts = factsData[countryName];
+    if (countryFacts && countryFacts.length > 0) {
+      const randomIndex = Math.floor(Math.random() * countryFacts.length);
+      return countryFacts[randomIndex];
+    }
+    return null;
+  }, []);
 
 
   // Fetch country data from REST Countries API
@@ -224,6 +256,9 @@ function App() {
     setFinalOptimalPath([]);
     setGameActive(true); // Start the timer
     setShowDebrief(false);
+
+    // Reset Smart Facts state
+    setCurrentFact(null);
   }, [countries, findShortestPath]);
 
 
@@ -283,6 +318,12 @@ function App() {
       return;
     }
  
+    // Valid guess - show a fact about the country
+    const fact = getRandomFact(guessedCountry);
+    if (fact) {
+      setCurrentFact(fact);
+    }
+
     setGuessedCountries(prev => [...prev, guessedCountry]);
     setRemainingTurns(prev => prev - 1);
  
@@ -293,6 +334,15 @@ function App() {
     if (continent[endCountry].borders.includes(continent[guessedCountry].cca3)) {
       const finalPath = [...guessedCountries, guessedCountry, endCountry];
       const calculatedOptimalPath = findShortestPath(startCountry, endCountry, continent);
+      
+      // Show a fact about the end country too
+      const endCountryFact = getRandomFact(endCountry);
+      if (endCountryFact) {
+        // Delay the end country fact slightly so it doesn't conflict with the current guess fact
+        setTimeout(() => {
+          setCurrentFact(endCountryFact);
+        }, 2000);
+      }
       
       // Capture Post-Journey Debrief data
       setFinalGameTime(gameTime);
@@ -525,6 +575,9 @@ function App() {
           </button>
         )}
       </div>
+
+      {/* Smart Facts Toast */}
+      {currentFact && <FactToast factText={currentFact} />}
 
       {/* Post-Journey Debrief Modal */}
       {showDebrief && (

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
-import RulesModal from './RulesModal';
-import GuessInput from './GuessInput';
-import GuessesList from './GuessesList';
-import GameMap from './GameMap';
-import PostJourneyDebrief from './PostJourneyDebrief';
-import FactToast from './FactToast';
-import factsData from './facts.json';
+import RulesModal from './components/RulesModal/RulesModal';
+import GuessInput from './components/GuessInput/GuessInput';
+import GuessesList from './components/GuessesList/GuessesList';
+import GameMap from './components/GameMap/GameMap';
+import PostJourneyDebrief from './components/PostJourneyDebrief/PostJourneyDebrief';
+import FactToast from './components/FactToast/FactToast';
+import factsData from './data/facts.json';
 
 
 // Special cases that might cause issues in the game logic

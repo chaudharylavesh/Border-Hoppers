@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
-import RulesModal from './RulesModal';
-import GuessInput from './GuessInput';
-import GuessesList from './GuessesList';
-import GameMap from './GameMap';
+import RulesModal from './components/RulesModal/RulesModal';
+import GuessInput from './components/GuessInput/GuessInput';
+import GuessesList from './components/GuessesList/GuessesList';
+import GameMap from './components/GameMap/GameMap';
+import PostJourneyDebrief from './components/PostJourneyDebrief/PostJourneyDebrief';
+import FactToast from './components/FactToast/FactToast';
+import factsData from './data/facts.json';
 
 
 // Special cases that might cause issues in the game logic
@@ -58,6 +61,64 @@ function App() {
   const [hint, setHint] = useState('');
   const [hintUsed, setHintUsed] = useState(false);
   const [showRules, setShowRules] = useState(false);
+
+  // New state variables for Post-Journey Debrief
+  const [gameTime, setGameTime] = useState(0);
+  const [finalGameTime, setFinalGameTime] = useState(0);
+  const [finalPlayerPath, setFinalPlayerPath] = useState([]);
+  const [finalOptimalPath, setFinalOptimalPath] = useState([]);
+  const [gameActive, setGameActive] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
+
+  // Smart Facts system state
+  const [currentFact, setCurrentFact] = useState(null);
+
+
+  // Game timer logic - tracks elapsed time during active gameplay
+  useEffect(() => {
+    let interval = null;
+    
+    if (gameActive && !gameOver) {
+      interval = setInterval(() => {
+        setGameTime(prevTime => prevTime + 1);
+      }, 1000);
+    } else if (interval) {
+      clearInterval(interval);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [gameActive, gameOver]);
+
+  // Auto-dismiss logic for fact toast
+  useEffect(() => {
+    let timeout = null;
+    
+    if (currentFact) {
+      timeout = setTimeout(() => {
+        setCurrentFact(null);
+      }, 7000); // 7 seconds
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [currentFact]);
+
+  // Function to get a random fact for a country
+  const getRandomFact = useCallback((countryName) => {
+    const countryFacts = factsData[countryName];
+    if (countryFacts && countryFacts.length > 0) {
+      const randomIndex = Math.floor(Math.random() * countryFacts.length);
+      return countryFacts[randomIndex];
+    }
+    return null;
+  }, []);
 
 
   // Fetch country data from REST Countries API
@@ -146,9 +207,7 @@ function App() {
   }, []);
 
 
-
-
-// Initialize the game - this sets up a new round
+  // Initialize the game - this sets up a new round
   const initializeGame = useCallback(() => {
     const continentOrder = ['Europe', 'Asia', 'Africa', 'Americas'];
     const randomContinent = continentOrder[Math.floor(Math.random() * continentOrder.length)];
@@ -189,6 +248,17 @@ function App() {
     setCurrentContinent(randomContinent);
     setHint('');
     setHintUsed(false);
+    
+    // Reset Post-Journey Debrief state variables
+    setGameTime(0);
+    setFinalGameTime(0);
+    setFinalPlayerPath([]);
+    setFinalOptimalPath([]);
+    setGameActive(true); // Start the timer
+    setShowDebrief(false);
+
+    // Reset Smart Facts state
+    setCurrentFact(null);
   }, [countries, findShortestPath]);
 
 
@@ -248,6 +318,12 @@ function App() {
       return;
     }
  
+    // Valid guess - show a fact about the country
+    const fact = getRandomFact(guessedCountry);
+    if (fact) {
+      setCurrentFact(fact);
+    }
+
     setGuessedCountries(prev => [...prev, guessedCountry]);
     setRemainingTurns(prev => prev - 1);
  
@@ -256,15 +332,47 @@ function App() {
  
     // Check if the player has reached the end country
     if (continent[endCountry].borders.includes(continent[guessedCountry].cca3)) {
+      const finalPath = [...guessedCountries, guessedCountry, endCountry];
+      const calculatedOptimalPath = findShortestPath(startCountry, endCountry, continent);
+      
+      // Show a fact about the end country too
+      const endCountryFact = getRandomFact(endCountry);
+      if (endCountryFact) {
+        // Delay the end country fact slightly so it doesn't conflict with the current guess fact
+        setTimeout(() => {
+          setCurrentFact(endCountryFact);
+        }, 2000);
+      }
+      
+      // Capture Post-Journey Debrief data
+      setFinalGameTime(gameTime);
+      setFinalPlayerPath(finalPath);
+      setFinalOptimalPath(calculatedOptimalPath || []);
+      setGameActive(false); // Stop the timer
+      
       setFeedback(`🎉 Congratulations! You've reached ${endCountry}!`);
-      setGuessedCountries(prev => [...prev, endCountry]);
+      setGuessedCountries(finalPath);
       setGameOver(true);
+      
+      // Show debrief after a short delay
+      setTimeout(() => {
+        setShowDebrief(true);
+      }, 1500);
+      
       return;
     }
  
     // Check if the player has run out of turns
     if (remainingTurns - 1 <= 0) {
-      setFeedback(`Game over! You've run out of turns. The optimal path was: ${optimalPath.join(' -> ')}`);
+      const calculatedOptimalPath = findShortestPath(startCountry, endCountry, continent);
+      
+      // Capture data even for failed games (for potential future use)
+      setFinalGameTime(gameTime);
+      setFinalPlayerPath([...guessedCountries, guessedCountry]);
+      setFinalOptimalPath(calculatedOptimalPath || []);
+      setGameActive(false); // Stop the timer
+      
+      setFeedback(`Game over! You've run out of turns. The optimal path was: ${calculatedOptimalPath ? calculatedOptimalPath.join(' -> ') : 'Unable to calculate'}`);
       setGameOver(true);
       return;
     }
@@ -381,6 +489,12 @@ function App() {
     setShowRules(false);
   };
 
+  // Handle play again from debrief
+  const handlePlayAgain = () => {
+    setShowDebrief(false);
+    initializeGame();
+  };
+
 
   // Render loading state
   if (isLoading) return <div className="loading">Loading...</div>;
@@ -389,8 +503,6 @@ function App() {
 
 
   // Main render
-
-
   return (
     <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
       <h1>🌍 Border Hoppers</h1>
@@ -409,6 +521,14 @@ function App() {
         Let's travel from <strong>{startCountry}</strong> to <strong>{endCountry}</strong>!
       </p>
       <p className="subtitle">Can you find the optimal path?</p>
+      
+      {/* Display current game time during active gameplay */}
+      {gameActive && (
+        <p className="game-timer" style={{ textAlign: 'center', fontSize: '14px', color: '#bbb' }}>
+          Time: {Math.floor(gameTime / 60)}:{(gameTime % 60).toString().padStart(2, '0')}
+        </p>
+      )}
+      
       <div className="game-container">
         <div className="input-container">
           <GuessInput
@@ -444,7 +564,8 @@ function App() {
           <h2>Your Journey So Far:</h2>
           <GuessesList guessedCountries={guessedCountries} />
         </div>
-        {gameOver && (
+        
+        {gameOver && !showDebrief && (
           <button
             className="new-game"
             onClick={startNewGame}
@@ -454,6 +575,19 @@ function App() {
           </button>
         )}
       </div>
+
+      {/* Smart Facts Toast */}
+      {currentFact && <FactToast factText={currentFact} />}
+
+      {/* Post-Journey Debrief Modal */}
+      {showDebrief && (
+        <PostJourneyDebrief
+          finalGameTime={finalGameTime}
+          finalPlayerPath={finalPlayerPath}
+          finalOptimalPath={finalOptimalPath}
+          onPlayAgain={handlePlayAgain}
+        />
+      )}
     </div>
   );
 }

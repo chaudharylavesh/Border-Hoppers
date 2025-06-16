@@ -1,0 +1,392 @@
+{
+  "Germany": [
+    "Germany has over 1,500 breweries and is famous for its beer purity law from 1516.",
+    "The Berlin Wall fell in 1989, reuniting East and West Germany.",
+    "Germany is home to the world's largest beer festival, Oktoberfest."
+  ],
+  "France": [
+    "France is the most visited country in the world with over 89 million tourists annually.",
+    "The Eiffel Tower was originally intended to be temporary and was built for the 1889 World's Fair.",
+    "France has won the most Nobel Prizes in Literature of any country."
+  ],
+  "Spain": [
+    "Spain has more than 3,000 hours of sunshine per year.",
+    "The Spanish language is spoken by over 500 million people worldwide.",
+    "Spain is home to the world's oldest restaurant, Sobrino de Botín, opened in 1725."
+  ],
+  "Italy": [
+    "Italy has more UNESCO World Heritage Sites than any other country.",
+    "The piano was invented in Italy around 1700 by Bartolomeo Cristofori.",
+    "Italy produces over 350 types of pasta."
+  ],
+  "Poland": [
+    "Poland is home to 17 UNESCO World Heritage Sites.",
+    "The Polish language uses 32 letters in its alphabet.",
+    "Poland has one of the world's largest castle complexes, Malbork Castle."
+  ],
+  "Netherlands": [
+    "The Netherlands has more museums per square mile than any other country.",
+    "About 26% of the Netherlands is below sea level.",
+    "The Netherlands produces 4.3 billion tulip bulbs annually."
+  ],
+  "Belgium": [
+    "Belgium produces over 220,000 tons of chocolate per year.",
+    "Brussels is home to the headquarters of both NATO and the European Union.",
+    "Belgium has three official languages: Dutch, French, and German."
+  ],
+  "Switzerland": [
+    "Switzerland has four official languages: German, French, Italian, and Romansh.",
+    "The Swiss consume more chocolate per capita than any other nation.",
+    "Switzerland has remained neutral in every war since 1815."
+  ],
+  "Austria": [
+    "Austria is the birthplace of classical music composers Mozart, Beethoven, and Strauss.",
+    "The Sound of Music was filmed in Austria, specifically in Salzburg.",
+    "Austria has over 400 ski resorts."
+  ],
+  "Czech Republic": [
+    "Prague, the capital, is known as the 'City of a Hundred Spires'.",
+    "The Czech Republic consumes the most beer per capita in the world.",
+    "The word 'robot' comes from the Czech word 'robota' meaning forced labor."
+  ],
+  "Hungary": [
+    "Hungary has 13 wine regions and produces excellent wines.",
+    "The Hungarian language is unrelated to any other European language.",
+    "Budapest has the largest thermal water cave system in the world."
+  ],
+  "Slovakia": [
+    "Slovakia has more castles per capita than any other country.",
+    "The geographical center of Europe is located in Slovakia.",
+    "Slovakia is home to the world's largest castle complex by area."
+  ],
+  "Slovenia": [
+    "Slovenia is one of the most forested countries in Europe with 60% forest coverage.",
+    "Lake Bled in Slovenia has a church on an island that can only be reached by boat.",
+    "Slovenia has over 10,000 caves, including the famous Postojna Cave."
+  ],
+  "Croatia": [
+    "Croatia has over 1,200 islands along its coastline.",
+    "The necktie (cravat) was invented in Croatia.",
+    "Croatia is home to the world's smallest town, Hum, with only 30 residents."
+  ],
+  "Serbia": [
+    "Serbia is one of the world's largest producers of raspberries.",
+    "The Serbian language can be written in both Cyrillic and Latin scripts.",
+    "Serbia has 5 national parks and numerous nature reserves."
+  ],
+  "Bosnia and Herzegovina": [
+    "Sarajevo hosted the 1984 Winter Olympics.",
+    "Bosnia and Herzegovina has three official languages: Bosnian, Croatian, and Serbian.",
+    "The country is famous for its traditional coffee culture."
+  ],
+  "Montenegro": [
+    "Montenegro means 'Black Mountain' in most European languages.",
+    "It's one of the youngest countries in the world, gaining independence in 2006.",
+    "Montenegro has 117 beaches along its 295km coastline."
+  ],
+  "Albania": [
+    "Albania is home to over 750,000 bunkers built during the communist era.",
+    "The Albanian language is unique and not closely related to any other language.",
+    "Albania has both Mediterranean and Alpine climates."
+  ],
+  "North Macedonia": [
+    "North Macedonia is the birthplace of Mother Teresa.",
+    "The country has over 1,100 plant species, many of which are endemic.",
+    "Ohrid Lake is one of the oldest and deepest lakes in Europe."
+  ],
+  "Bulgaria": [
+    "Bulgaria is famous for its rose oil production, used in perfumes worldwide.",
+    "The Cyrillic alphabet was developed in Bulgaria.",
+    "Bulgaria has over 40,000 ancient burial mounds called tumuli."
+  ],
+  "Romania": [
+    "Romania is home to Bran Castle, often associated with Dracula.",
+    "The Palace of the Parliament in Bucharest is the second-largest building in the world.",
+    "Romania has the largest population of brown bears in Europe."
+  ],
+  "Moldova": [
+    "Moldova has the largest wine cellar in the world, stretching for 200km underground.",
+    "It's the least visited country in Europe, making it a hidden gem.",
+    "Moldova is landlocked between Romania and Ukraine."
+  ],
+  "Ukraine": [
+    "Ukraine is the largest country entirely within Europe.",
+    "The Chernobyl Exclusion Zone has become an unexpected wildlife sanctuary.",
+    "Ukraine is known as the 'breadbasket of Europe' for its fertile farmland."
+  ],
+  "Belarus": [
+    "Belarus is known as the 'lungs of Europe' due to its vast forests.",
+    "The country has over 20,000 rivers and 11,000 lakes.",
+    "Belarus is famous for its traditional wooden architecture."
+  ],
+  "Lithuania": [
+    "Lithuania was the first Soviet republic to declare independence in 1990.",
+    "The country has a unique tradition of cross-crafting recognized by UNESCO.",
+    "Lithuania has the fastest public Wi-Fi in the world."
+  ],
+  "Latvia": [
+    "Latvia has the widest waterfall in Europe, Ventas Rumba.",
+    "The country has over 12,000 rivers and 3,000 small lakes.",
+    "Riga's Old Town is a UNESCO World Heritage Site."
+  ],
+  "Estonia": [
+    "Estonia is one of the most digitally advanced countries in the world.",
+    "Skype was invented in Estonia.",
+    "Estonia has over 2,000 islands in the Baltic Sea."
+  ],
+  "Finland": [
+    "Finland has more saunas than cars - about 3.3 million saunas for 5.5 million people.",
+    "The Northern Lights can be seen in Finland about 200 nights per year.",
+    "Finland is the happiest country in the world according to multiple studies."
+  ],
+  "Sweden": [
+    "Sweden has not been at war for over 200 years.",
+    "IKEA, H&M, Volvo, and Spotify all originated in Sweden.",
+    "Sweden has more than 267,000 islands larger than 5 square meters."
+  ],
+  "Norway": [
+    "Norway has the world's longest road tunnel, the Lærdal Tunnel, at 24.5 km.",
+    "The country has over 1,000 fjords along its coastline.",
+    "Norway is home to the midnight sun phenomenon in summer."
+  ],
+  "Denmark": [
+    "Denmark is consistently ranked as one of the happiest countries in the world.",
+    "LEGO was invented in Denmark in 1958.",
+    "Denmark has more than 7,000 kilometers of coastline."
+  ],
+  "Iceland": [
+    "Iceland runs almost entirely on renewable energy from geothermal and hydroelectric sources.",
+    "There are no mosquitoes in Iceland.",
+    "Iceland has more than 130 volcanic mountains."
+  ],
+  "Ireland": [
+    "Ireland is known as the 'Emerald Isle' due to its lush green landscape.",
+    "The shamrock is Ireland's national symbol.",
+    "Ireland has produced four Nobel Prize winners in Literature."
+  ],
+  "United Kingdom": [
+    "The UK has no place that is more than 75 miles from the sea.",
+    "London's Big Ben is not actually the name of the clock tower, but the bell inside it.",
+    "The UK has over 1,500 castles."
+  ],
+  "Portugal": [
+    "Portugal is the oldest nation state in Europe, founded in 1143.",
+    "The Portuguese language is spoken by over 250 million people worldwide.",
+    "Portugal produces half of the world's cork."
+  ],
+  "Turkey": [
+    "Turkey is the only country that spans two continents, Europe and Asia.",
+    "Turkish coffee was the first coffee ever brewed, and Turkey gave coffee to Europe.",
+    "The city of Istanbul was once the capital of both the Byzantine and Ottoman empires."
+  ],
+  "Greece": [
+    "Greece has more than 6,000 islands, but only 227 are inhabited.",
+    "Greece is the birthplace of democracy, philosophy, and the Olympic Games.",
+    "Greek is one of the oldest recorded living languages, with 34 centuries of written records."
+  ],
+  "Cyprus": [
+    "Cyprus is the third largest island in the Mediterranean Sea.",
+    "The island is famous for being the birthplace of Aphrodite, the Greek goddess of love.",
+    "Cyprus has 340 days of sunshine per year."
+  ],
+  "Malta": [
+    "Malta is one of the smallest countries in the world, smaller than many cities.",
+    "The Maltese language is the only Semitic language written in Latin script.",
+    "Malta has three UNESCO World Heritage Sites despite its small size."
+  ],
+  "Russia": [
+    "Russia spans 11 time zones, more than any other country.",
+    "The Trans-Siberian Railway is the longest railway line in the world at 9,289 km.",
+    "Russia has more than 100,000 rivers and 2 million lakes."
+  ],
+  "China": [
+    "China has the world's largest population with over 1.4 billion people.",
+    "The Great Wall of China is over 13,000 miles long.",
+    "China invented paper, gunpowder, the compass, and printing."
+  ],
+  "Japan": [
+    "Japan consists of 6,852 islands, though only about 430 are inhabited.",
+    "Japan has more than 3 million vending machines.",
+    "Mount Fuji is Japan's highest mountain and an active volcano."
+  ],
+  "India": [
+    "India is the world's largest democracy with over 900 million eligible voters.",
+    "India has 22 official languages and over 1,600 spoken languages.",
+    "The game of chess was invented in India."
+  ],
+  "South Korea": [
+    "South Korea has the fastest internet speeds in the world.",
+    "Taekwondo originated in South Korea and is now practiced worldwide.",
+    "South Korea has more than 3,000 islands."
+  ],
+  "Thailand": [
+    "Thailand is the only Southeast Asian country never to have been colonized.",
+    "Bangkok's real name is 169 letters long in Thai.",
+    "Thailand is home to the world's smallest mammal, the bumblebee bat."
+  ],
+  "Vietnam": [
+    "Vietnam is the world's largest producer of cashew nuts.",
+    "The country has 54 ethnic groups with distinct languages and cultures.",
+    "Ha Long Bay has over 1,600 limestone islands and islets."
+  ],
+  "Indonesia": [
+    "Indonesia is the world's largest archipelago with over 17,000 islands.",
+    "Indonesia is home to the world's largest flower, the Rafflesia.",
+    "The country has more active volcanoes than any other nation."
+  ],
+  "Malaysia": [
+    "Malaysia is one of the world's 17 megadiverse countries.",
+    "The Petronas Twin Towers were the world's tallest buildings from 1998 to 2004.",
+    "Malaysia has 13 states and 3 federal territories."
+  ],
+  "Singapore": [
+    "Singapore is both a city and a country, making it a city-state.",
+    "The country has four official languages: English, Malay, Mandarin, and Tamil.",
+    "Singapore has the world's tallest indoor waterfall at Changi Airport."
+  ],
+  "Philippines": [
+    "The Philippines consists of 7,641 islands.",
+    "Filipino and English are the official languages, but over 180 languages are spoken.",
+    "The Philippines is the world's second-largest archipelago."
+  ],
+  "Australia": [
+    "Australia is the only country that is also a continent.",
+    "Australia has more species of venomous snakes than any other country.",
+    "The Great Barrier Reef is the world's largest coral reef system."
+  ],
+  "New Zealand": [
+    "New Zealand has more sheep than people - about 5 sheep per person.",
+    "The country was the first to give women the right to vote in 1893.",
+    "New Zealand has no native land mammals except for bats."
+  ],
+  "Brazil": [
+    "Brazil is home to 60% of the Amazon rainforest.",
+    "Brazil has won the FIFA World Cup 5 times, more than any other country.",
+    "The country has the world's largest carnival celebration in Rio de Janeiro."
+  ],
+  "Argentina": [
+    "Argentina is famous for its tango dance and music.",
+    "The country is the world's second-largest producer of beef.",
+    "Argentina has the highest literacy rate in South America at 98%."
+  ],
+  "Chile": [
+    "Chile is the world's longest and narrowest country.",
+    "The Atacama Desert in Chile is the driest place on Earth.",
+    "Chile produces some of the world's finest wines."
+  ],
+  "Peru": [
+    "Peru is home to Machu Picchu, one of the New Seven Wonders of the World.",
+    "The country has over 3,000 varieties of potatoes.",
+    "Peru has 12 UNESCO World Heritage Sites."
+  ],
+  "Colombia": [
+    "Colombia is the world's leading producer of emeralds.",
+    "The country is named after Christopher Columbus.",
+    "Colombia has the second-highest biodiversity in the world."
+  ],
+  "Venezuela": [
+    "Venezuela has the world's largest oil reserves.",
+    "Angel Falls in Venezuela is the world's highest waterfall.",
+    "The country has won more international beauty pageants than any other."
+  ],
+  "Ecuador": [
+    "Ecuador is named after the equator, which runs through the country.",
+    "The Galápagos Islands belong to Ecuador and inspired Darwin's theory of evolution.",
+    "Ecuador uses the US dollar as its official currency."
+  ],
+  "Bolivia": [
+    "Bolivia has two capital cities: La Paz and Sucre.",
+    "The country has the world's largest salt flat, Salar de Uyuni.",
+    "Bolivia is one of only two landlocked countries in South America."
+  ],
+  "Paraguay": [
+    "Paraguay is one of only two landlocked countries in South America.",
+    "The country has two official languages: Spanish and Guaraní.",
+    "Paraguay is known as the 'Heart of South America' due to its central location."
+  ],
+  "Uruguay": [
+    "Uruguay was the first country to legalize same-sex marriage in South America.",
+    "The country has one of the highest literacy rates in the world.",
+    "Uruguay is known for its progressive social policies."
+  ],
+  "Guyana": [
+    "Guyana is the only English-speaking country in South America.",
+    "The country has one of the highest suicide rates in the world.",
+    "Guyana means 'Land of Many Waters' in the indigenous language."
+  ],
+  "Suriname": [
+    "Suriname is the smallest country in South America.",
+    "Dutch is the official language of Suriname.",
+    "About 80% of Suriname is covered by rainforest."
+  ],
+  "Mexico": [
+    "Mexico has 67 national languages, with Spanish being the most widely spoken.",
+    "The country is home to the world's largest pyramid by volume, the Great Pyramid of Cholula.",
+    "Mexico gave the world chocolate, vanilla, and chili peppers."
+  ],
+  "United States": [
+    "The United States has no official national language at the federal level.",
+    "Alaska has more coastline than all other US states combined.",
+    "The US has 63 national parks protecting diverse ecosystems."
+  ],
+  "Canada": [
+    "Canada has the world's longest coastline at over 202,000 kilometers.",
+    "The country has two official languages: English and French.",
+    "Canada has more lakes than the rest of the world combined."
+  ],
+  "Egypt": [
+    "Egypt is home to the only surviving wonder of the ancient world, the Great Pyramid of Giza.",
+    "The Nile River, the world's longest river, flows through Egypt.",
+    "Ancient Egyptians invented paper, ink, and the 365-day calendar."
+  ],
+  "South Africa": [
+    "South Africa has 11 official languages.",
+    "The country is home to the world's largest diamond mine.",
+    "South Africa has three capital cities: Cape Town, Pretoria, and Bloemfontein."
+  ],
+  "Nigeria": [
+    "Nigeria is the most populous country in Africa with over 200 million people.",
+    "The country has over 500 indigenous languages.",
+    "Nigeria is Africa's largest oil producer."
+  ],
+  "Kenya": [
+    "Kenya is famous for its long-distance runners who dominate international marathons.",
+    "The country is home to the Great Migration of wildebeest and zebras.",
+    "Kenya has 47 counties and over 40 different ethnic groups."
+  ],
+  "Morocco": [
+    "Morocco is the only African country with both Atlantic and Mediterranean coastlines.",
+    "The country is famous for its traditional handicrafts, especially carpets and pottery.",
+    "Morocco has been ruled by the same royal family for over 350 years."
+  ],
+  "Algeria": [
+    "Algeria is the largest country in Africa by land area.",
+    "The Sahara Desert covers more than 80% of Algeria.",
+    "Algeria has seven UNESCO World Heritage Sites."
+  ],
+  "Tunisia": [
+    "Tunisia was the birthplace of the Arab Spring in 2010.",
+    "The country has some of the best-preserved Roman ruins in the world.",
+    "Tunisia is the smallest country in North Africa."
+  ],
+  "Libya": [
+    "Libya has the largest oil reserves in Africa.",
+    "The country is mostly desert, with the Sahara covering 90% of its territory.",
+    "Libya was once part of the Roman Empire and has many ancient ruins."
+  ],
+  "Sudan": [
+    "Sudan was the largest country in Africa before South Sudan's independence in 2011.",
+    "The Blue and White Nile rivers meet in Sudan's capital, Khartoum.",
+    "Sudan has more pyramids than Egypt, with over 200 ancient pyramids."
+  ],
+  "Ethiopia": [
+    "Ethiopia is the only African country never to have been fully colonized.",
+    "The country follows a unique calendar with 13 months.",
+    "Ethiopia is considered the birthplace of coffee."
+  ],
+  "Ghana": [
+    "Ghana was the first African country to gain independence from European colonial rule.",
+    "The country is the world's second-largest producer of cocoa.",
+    "Ghana has more than 100 ethnic groups speaking over 250 languages."
+  ]
+}

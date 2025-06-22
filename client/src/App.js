@@ -8,6 +8,12 @@ import GameMap from './components/GameMap/GameMap';
 import PostJourneyDebrief from './components/PostJourneyDebrief/PostJourneyDebrief';
 import FactToast from './components/FactToast/FactToast';
 import factsData from './data/facts.json';
+import { 
+  getPlayerStats, 
+  savePlayerStats, 
+  updateLoginStreak, 
+  incrementGameStats 
+} from './services/statsService';
 
 
 // Special cases that might cause issues in the game logic
@@ -72,6 +78,28 @@ function App() {
 
   // Smart Facts system state
   const [currentFact, setCurrentFact] = useState(null);
+
+  // Player statistics state
+  const [playerStats, setPlayerStats] = useState(null);
+
+
+  // Initialize player statistics and handle login streak on app load
+  useEffect(() => {
+    const initializePlayerStats = () => {
+      const currentStats = getPlayerStats();
+      const updatedStats = updateLoginStreak(currentStats);
+      
+      // Save updated stats if login streak was modified
+      if (updatedStats.lastLoginDate !== currentStats.lastLoginDate || 
+          updatedStats.loginStreak !== currentStats.loginStreak) {
+        savePlayerStats(updatedStats);
+      }
+      
+      setPlayerStats(updatedStats);
+    };
+
+    initializePlayerStats();
+  }, []);
 
 
   // Game timer logic - tracks elapsed time during active gameplay
@@ -354,6 +382,14 @@ function App() {
       setGuessedCountries(finalPath);
       setGameOver(true);
       
+      // Update player statistics when game is won
+      if (playerStats && calculatedOptimalPath) {
+        const medalType = getMedalType(finalPath.length, calculatedOptimalPath.length);
+        const updatedStats = incrementGameStats(playerStats, medalType);
+        savePlayerStats(updatedStats);
+        setPlayerStats(updatedStats);
+      }
+      
       // Show debrief after a short delay
       setTimeout(() => {
         setShowDebrief(true);
@@ -379,6 +415,18 @@ function App() {
  
     setCurrentGuess('');
     setSuggestions([]);
+  };
+
+
+  // Helper function to determine medal type based on path efficiency
+  const getMedalType = (playerPathLength, optimalPathLength) => {
+    if (playerPathLength === optimalPathLength) {
+      return 'GOLD';
+    } else if (playerPathLength <= optimalPathLength + 2) {
+      return 'SILVER';
+    } else {
+      return 'BRONZE';
+    }
   };
 
 
@@ -527,6 +575,17 @@ function App() {
         <p className="game-timer" style={{ textAlign: 'center', fontSize: '14px', color: '#bbb' }}>
           Time: {Math.floor(gameTime / 60)}:{(gameTime % 60).toString().padStart(2, '0')}
         </p>
+      )}
+
+      {/* Display player statistics for debugging (can be removed later) */}
+      {playerStats && (
+        <div style={{ textAlign: 'center', fontSize: '12px', color: '#888', marginBottom: '10px' }}>
+          Games: {playerStats.totalGamesCompleted} | 
+          🥇: {playerStats.totalGoldMedals} | 
+          🥈: {playerStats.totalSilverMedals} | 
+          🥉: {playerStats.totalBronzeMedals} | 
+          Streak: {playerStats.loginStreak} days
+        </div>
       )}
       
       <div className="game-container">

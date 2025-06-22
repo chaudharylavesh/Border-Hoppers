@@ -12,7 +12,8 @@ const initialStats = {
   totalSilverMedals: 0,
   totalBronzeMedals: 0,
   loginStreak: 1,
-  lastLoginDate: new Date().toISOString().split('T')[0] // 'YYYY-MM-DD'
+  lastLoginDate: new Date().toISOString().split('T')[0], // 'YYYY-MM-DD'
+  unlockedAchievements: [] // Array of achievement IDs
 };
 
 /**
@@ -29,7 +30,11 @@ export const getPlayerStats = () => {
       // Ensure all required properties exist (for backward compatibility)
       return {
         ...initialStats,
-        ...parsedStats
+        ...parsedStats,
+        // Ensure unlockedAchievements is always an array
+        unlockedAchievements: Array.isArray(parsedStats.unlockedAchievements) 
+          ? parsedStats.unlockedAchievements 
+          : []
       };
     }
     
@@ -50,7 +55,11 @@ export const savePlayerStats = (stats) => {
       ...initialStats,
       ...stats,
       // Ensure lastLoginDate is always a valid date string
-      lastLoginDate: stats.lastLoginDate || new Date().toISOString().split('T')[0]
+      lastLoginDate: stats.lastLoginDate || new Date().toISOString().split('T')[0],
+      // Ensure unlockedAchievements is always an array
+      unlockedAchievements: Array.isArray(stats.unlockedAchievements) 
+        ? stats.unlockedAchievements 
+        : []
     };
     
     localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(statsToSave));

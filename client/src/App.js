@@ -14,6 +14,7 @@ import {
   updateLoginStreak, 
   incrementGameStats 
 } from './services/statsService';
+import { checkAndUnlockAchievements } from './services/achievementService';
 
 
 // Special cases that might cause issues in the game logic
@@ -93,6 +94,12 @@ function App() {
       if (updatedStats.lastLoginDate !== currentStats.lastLoginDate || 
           updatedStats.loginStreak !== currentStats.loginStreak) {
         savePlayerStats(updatedStats);
+        
+        // Check for achievements after login streak update
+        const newAchievements = checkAndUnlockAchievements();
+        if (newAchievements.length > 0) {
+          console.log('Login Achievements Unlocked!', newAchievements);
+        }
       }
       
       setPlayerStats(updatedStats);
@@ -322,6 +329,18 @@ function App() {
   };
 
 
+  // Helper function to determine medal type based on path efficiency
+  const getMedalType = (playerPathLength, optimalPathLength) => {
+    if (playerPathLength === optimalPathLength) {
+      return 'GOLD';
+    } else if (playerPathLength <= optimalPathLength + 2) {
+      return 'SILVER';
+    } else {
+      return 'BRONZE';
+    }
+  };
+
+
   // Handle player guesses - this is where the main game logic happens
   const handleGuess = () => {
     if (gameOver || remainingTurns <= 0) return;
@@ -388,6 +407,13 @@ function App() {
         const updatedStats = incrementGameStats(playerStats, medalType);
         savePlayerStats(updatedStats);
         setPlayerStats(updatedStats);
+        
+        // Check for newly unlocked achievements
+        const newAchievements = checkAndUnlockAchievements();
+        if (newAchievements.length > 0) {
+          console.log('🎉 New Achievements Unlocked!', newAchievements);
+          // You could show a notification here in the future
+        }
       }
       
       // Show debrief after a short delay
@@ -415,18 +441,6 @@ function App() {
  
     setCurrentGuess('');
     setSuggestions([]);
-  };
-
-
-  // Helper function to determine medal type based on path efficiency
-  const getMedalType = (playerPathLength, optimalPathLength) => {
-    if (playerPathLength === optimalPathLength) {
-      return 'GOLD';
-    } else if (playerPathLength <= optimalPathLength + 2) {
-      return 'SILVER';
-    } else {
-      return 'BRONZE';
-    }
   };
 
 
@@ -584,7 +598,8 @@ function App() {
           🥇: {playerStats.totalGoldMedals} | 
           🥈: {playerStats.totalSilverMedals} | 
           🥉: {playerStats.totalBronzeMedals} | 
-          Streak: {playerStats.loginStreak} days
+          Streak: {playerStats.loginStreak} days | 
+          Achievements: {playerStats.unlockedAchievements.length}
         </div>
       )}
       

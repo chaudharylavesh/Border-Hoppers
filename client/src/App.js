@@ -7,6 +7,8 @@ import GuessesList from './components/GuessesList/GuessesList';
 import GameMap from './components/GameMap/GameMap';
 import PostJourneyDebrief from './components/PostJourneyDebrief/PostJourneyDebrief';
 import FactToast from './components/FactToast/FactToast';
+import AchievementToast from './components/AchievementToast/AchievementToast';
+import AwardsPage from './components/Awards/AwardsPage';
 import factsData from './data/facts.json';
 import { 
   getPlayerStats, 
@@ -48,6 +50,10 @@ const RefreshIcon = () => (
   <img src="/refresh.png" alt="Refresh" style={{ width: '24px', height: '24px' }} />
 );
 
+const TrophyIcon = () => (
+  <span style={{ fontSize: '24px', cursor: 'pointer' }}>🏆</span>
+);
+
 
 function App() {
   // State variables - using useState for reactive updates
@@ -83,6 +89,13 @@ function App() {
   // Player statistics state
   const [playerStats, setPlayerStats] = useState(null);
 
+  // Achievement notification system state
+  const [notificationQueue, setNotificationQueue] = useState([]);
+  const [currentToast, setCurrentToast] = useState(null);
+
+  // Awards page state
+  const [showAwardsPage, setShowAwardsPage] = useState(false);
+
 
   // Initialize player statistics and handle login streak on app load
   useEffect(() => {
@@ -99,6 +112,8 @@ function App() {
         const newAchievements = checkAndUnlockAchievements();
         if (newAchievements.length > 0) {
           console.log('Login Achievements Unlocked!', newAchievements);
+          // Add to notification queue
+          setNotificationQueue(prev => [...prev, ...newAchievements]);
         }
       }
       
@@ -107,6 +122,23 @@ function App() {
 
     initializePlayerStats();
   }, []);
+
+  // Achievement notification queue management
+  useEffect(() => {
+    if (currentToast === null && notificationQueue.length > 0) {
+      // Take the first achievement from the queue
+      const nextAchievement = notificationQueue[0];
+      setCurrentToast(nextAchievement);
+      
+      // Remove the achievement from the queue
+      setNotificationQueue(prev => prev.slice(1));
+    }
+  }, [notificationQueue, currentToast]);
+
+  // Handle toast dismissal
+  const handleToastDismiss = () => {
+    setCurrentToast(null);
+  };
 
 
   // Game timer logic - tracks elapsed time during active gameplay
@@ -412,7 +444,8 @@ function App() {
         const newAchievements = checkAndUnlockAchievements();
         if (newAchievements.length > 0) {
           console.log('🎉 New Achievements Unlocked!', newAchievements);
-          // You could show a notification here in the future
+          // Add to notification queue
+          setNotificationQueue(prev => [...prev, ...newAchievements]);
         }
       }
       
@@ -557,6 +590,11 @@ function App() {
     initializeGame();
   };
 
+  // Toggle awards page
+  const toggleAwardsPage = () => {
+    setShowAwardsPage(!showAwardsPage);
+  };
+
 
   // Render loading state
   if (isLoading) return <div className="loading">Loading...</div>;
@@ -568,16 +606,22 @@ function App() {
   return (
     <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
       <h1>🌍 Border Hoppers</h1>
-      <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-        <button onClick={toggleRules} style={{ marginRight: '10px', background: 'none', border: 'none', cursor: 'pointer' }}>
+      <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '10px' }}>
+        <button onClick={toggleAwardsPage} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="View Achievements">
+          <TrophyIcon />
+        </button>
+        <button onClick={toggleRules} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="Game Rules">
           <QuestionIcon />
         </button>
-        <button onClick={startNewGame} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+        <button onClick={startNewGame} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="New Game">
           <RefreshIcon />
         </button>
       </div>
       {showRules && (
         <RulesModal show={showRules} onClose={toggleRules} colorScheme={colorScheme} />
+      )}
+      {showAwardsPage && (
+        <AwardsPage onClose={toggleAwardsPage} />
       )}
       <p className="journey">
         Let's travel from <strong>{startCountry}</strong> to <strong>{endCountry}</strong>!
@@ -652,6 +696,14 @@ function App() {
 
       {/* Smart Facts Toast */}
       {currentFact && <FactToast factText={currentFact} />}
+
+      {/* Achievement Toast */}
+      {currentToast && (
+        <AchievementToast 
+          achievement={currentToast} 
+          onDismiss={handleToastDismiss} 
+        />
+      )}
 
       {/* Post-Journey Debrief Modal */}
       {showDebrief && (

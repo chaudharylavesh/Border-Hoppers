@@ -9,7 +9,10 @@ import PostJourneyDebrief from './components/PostJourneyDebrief/PostJourneyDebri
 import FactToast from './components/FactToast/FactToast';
 import AchievementToast from './components/AchievementToast/AchievementToast';
 import AwardsPage from './components/Awards/AwardsPage';
+import GameModeSelector from './components/GameModeSelector/GameModeSelector';
+import DeductionScreen from './components/DeductionScreen/DeductionScreen';
 import factsData from './data/facts.json';
+import mysteriesData from './data/mysteries.json';
 import { 
   getPlayerStats, 
   savePlayerStats, 
@@ -95,6 +98,12 @@ function App() {
 
   // Awards page state
   const [showAwardsPage, setShowAwardsPage] = useState(false);
+
+  // Game mode and mystery state
+  const [gameMode, setGameMode] = useState('classic');
+  const [currentMystery, setCurrentMystery] = useState(null);
+  const [showModeSelector, setShowModeSelector] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
 
   // Initialize player statistics and handle login streak on app load
@@ -275,7 +284,7 @@ function App() {
 
 
   // Initialize the game - this sets up a new round
-  const initializeGame = useCallback(() => {
+  const initializeGame = useCallback((startingCountry = null) => {
     const continentOrder = ['Europe', 'Asia', 'Africa', 'Americas'];
     const randomContinent = continentOrder[Math.floor(Math.random() * continentOrder.length)];
     const continentCountries = countries[randomContinent];
@@ -289,20 +298,35 @@ function App() {
       country => continentCountries[country].borders.length > 0 && !specialCases.includes(country)
     );
 
-
-    // Keep generating start/end pairs until we find a valid one
-    // This was tricky to get right - had to balance between challenge and playability
     let start, end, path;
-    do {
-      start = mainlandCountries[Math.floor(Math.random() * mainlandCountries.length)];
-      end = mainlandCountries[Math.floor(Math.random() * mainlandCountries.length)];
-      path = findShortestPath(start, end, continentCountries);
-    } while (
-      start === end ||
-      path === null ||
-      path.length < 3 ||
-      continentCountries[start].borders.includes(continentCountries[end].cca3)
-    );
+
+    if (startingCountry && continentCountries[startingCountry]) {
+      // Mystery mode - use the solved country as start
+      start = startingCountry;
+      
+      // Find a suitable end country
+      do {
+        end = mainlandCountries[Math.floor(Math.random() * mainlandCountries.length)];
+        path = findShortestPath(start, end, continentCountries);
+      } while (
+        start === end ||
+        path === null ||
+        path.length < 3 ||
+        continentCountries[start].borders.includes(continentCountries[end].cca3)
+      );
+    } else {
+      // Classic mode - generate random start and end
+      do {
+        start = mainlandCountries[Math.floor(Math.random() * mainlandCountries.length)];
+        end = mainlandCountries[Math.floor(Math.random() * mainlandCountries.length)];
+        path = findShortestPath(start, end, continentCountries);
+      } while (
+        start === end ||
+        path === null ||
+        path.length < 3 ||
+        continentCountries[start].borders.includes(continentCountries[end].cca3)
+      );
+    }
 
 
     setStartCountry(start);
@@ -323,18 +347,45 @@ function App() {
     setFinalOptimalPath([]);
     setGameActive(true); // Start the timer
     setShowDebrief(false);
+    setGameStarted(true);
 
     // Reset Smart Facts state
     setCurrentFact(null);
   }, [countries, findShortestPath]);
 
 
-  // Start a new game when countries data is loaded
+  // Start a new game when countries data is loaded (only for classic mode)
   useEffect(() => {
-    if (Object.keys(countries).length > 0) {
-      initializeGame();
+    if (Object.keys(countries).length > 0 && !gameStarted && gameMode === 'classic' && !showModeSelector) {
+      // Don't auto-start, wait for user to select mode
     }
-  }, [countries, initializeGame]);
+  }, [countries, gameStarted, gameMode, showModeSelector]);
+
+  // Handle mode selection
+  const handleModeSelect = (selectedMode) => {
+    setGameMode(selectedMode);
+    setShowModeSelector(false);
+    
+    if (selectedMode === 'classic') {
+      initializeGame();
+    } else if (selectedMode === 'mystery') {
+      // Select a random mystery
+      const randomMystery = mysteriesData[Math.floor(Math.random() * mysteriesData.length)];
+      setCurrentMystery(randomMystery);
+    }
+  };
+
+  // Handle mystery solve
+  const handleMysterysolve = (solvedCountry) => {
+    setCurrentMystery(null);
+    initializeGame(solvedCountry);
+  };
+
+  // Handle back from deduction screen
+  const handleBackFromDeduction = () => {
+    setCurrentMystery(null);
+    setShowModeSelector(true);
+  };
 
 
   // Handle input changes and provide suggestions
@@ -580,14 +631,19 @@ function App() {
 
   // Start a new game
   const startNewGame = () => {
-    initializeGame();
+    setShowModeSelector(true);
+    setGameStarted(false);
+    setCurrentMystery(null);
     setShowRules(false);
+    setShowDebrief(false);
   };
 
   // Handle play again from debrief
   const handlePlayAgain = () => {
     setShowDebrief(false);
-    initializeGame();
+    setShowModeSelector(true);
+    setGameStarted(false);
+    setCurrentMystery(null);
   };
 
   // Toggle awards page
@@ -601,6 +657,80 @@ function App() {
   if (error) return <div className="error">Error: {error}</div>;
   if (!countries || Object.keys(countries).length === 0) return <div className="error">No country data available</div>;
 
+  // Show mode selector if not started or explicitly requested
+  if (showModeSelector) {
+    return (
+      <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
+        <GameModeSelector 
+          onModeSelect={handleModeSelect}
+          onCancel={() => setShowModeSelector(false)}
+        />
+      </div>
+    );
+  }
+
+  // Show deduction screen for mystery mode
+  if (currentMystery) {
+    return (
+      <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
+        <DeductionScreen 
+          mystery={currentMystery}
+          onSolve={handleMysterysolve}
+          onBack={handleBackFromDeduction}
+        />
+      </div>
+    );
+  }
+
+  // Show welcome screen if no game started
+  if (!gameStarted) {
+    return (
+      <div className="app" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
+        <h1>🌍 Border Hoppers</h1>
+        <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '10px' }}>
+          <button onClick={toggleAwardsPage} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="View Achievements">
+            <TrophyIcon />
+          </button>
+          <button onClick={toggleRules} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="Game Rules">
+            <QuestionIcon />
+          </button>
+        </div>
+        {showRules && (
+          <RulesModal show={showRules} onClose={toggleRules} colorScheme={colorScheme} />
+        )}
+        {showAwardsPage && (
+          <AwardsPage onClose={toggleAwardsPage} />
+        )}
+        <div style={{ textAlign: 'center', marginTop: '100px' }}>
+          <p style={{ fontSize: '1.5rem', marginBottom: '30px' }}>
+            Welcome to Border Hoppers! Choose your adventure to begin.
+          </p>
+          <button 
+            onClick={startNewGame}
+            style={{ 
+              backgroundColor: colorScheme.button, 
+              color: colorScheme.text,
+              padding: '15px 30px',
+              fontSize: '1.2rem',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer'
+            }}
+          >
+            Start New Game
+          </button>
+        </div>
+        
+        {/* Achievement Toast */}
+        {currentToast && (
+          <AchievementToast 
+            achievement={currentToast} 
+            onDismiss={handleToastDismiss} 
+          />
+        )}
+      </div>
+    );
+  }
 
   // Main render
   return (
@@ -623,6 +753,22 @@ function App() {
       {showAwardsPage && (
         <AwardsPage onClose={toggleAwardsPage} />
       )}
+      
+      {/* Game Mode Indicator */}
+      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <span style={{ 
+          backgroundColor: gameMode === 'mystery' ? '#FF9800' : '#4CAF50',
+          color: 'white',
+          padding: '4px 12px',
+          borderRadius: '12px',
+          fontSize: '0.9rem',
+          fontWeight: 'bold',
+          textTransform: 'uppercase'
+        }}>
+          {gameMode === 'mystery' ? '🕵️ Mystery Mode' : '🌍 Classic Mode'}
+        </span>
+      </div>
+      
       <p className="journey">
         Let's travel from <strong>{startCountry}</strong> to <strong>{endCountry}</strong>!
       </p>

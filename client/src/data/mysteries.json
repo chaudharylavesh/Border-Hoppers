@@ -1,0 +1,130 @@
+[
+  {
+    "countryName": "Egypt",
+    "clues": {
+      "fact": "I am home to one of the Seven Wonders of the Ancient World that still stands today.",
+      "imageURL": "https://images.pexels.com/photos/71241/pyramid-desert-egypt-ancient-71241.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Egypt_map_blank.svg"
+    }
+  },
+  {
+    "countryName": "Italy",
+    "clues": {
+      "fact": "My capital city contains the smallest country in the world within its borders.",
+      "imageURL": "https://images.pexels.com/photos/532263/pexels-photo-532263.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/5/53/Blank_map_of_Italy.svg"
+    }
+  },
+  {
+    "countryName": "France",
+    "clues": {
+      "fact": "I am home to an iron tower that was once the world's tallest structure and was built for a world's fair.",
+      "imageURL": "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/2/29/France_map_blank.svg"
+    }
+  },
+  {
+    "countryName": "Japan",
+    "clues": {
+      "fact": "I am an island nation where cherry blossoms bloom and ancient temples stand beside modern skyscrapers.",
+      "imageURL": "https://images.pexels.com/photos/161401/fushimi-inari-taisha-shrine-kyoto-japan-161401.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Japan_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Brazil",
+    "clues": {
+      "fact": "I am home to the world's largest rainforest and a famous statue of Christ overlooking a major city.",
+      "imageURL": "https://images.pexels.com/photos/351448/pexels-photo-351448.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Brazil_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Australia",
+    "clues": {
+      "fact": "I am both a country and a continent, famous for unique animals and a large red rock in my center.",
+      "imageURL": "https://images.pexels.com/photos/995765/pexels-photo-995765.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/6/67/Australia_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "India",
+    "clues": {
+      "fact": "I am home to a white marble mausoleum built by an emperor for his beloved wife, considered one of the most beautiful buildings in the world.",
+      "imageURL": "https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/5/51/India_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Greece",
+    "clues": {
+      "fact": "I am the birthplace of democracy and the Olympic Games, with ancient ruins overlooking my capital city.",
+      "imageURL": "https://images.pexels.com/photos/164336/pexels-photo-164336.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Greece_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Peru",
+    "clues": {
+      "fact": "I am home to an ancient citadel high in the mountains, built by a civilization that worshipped the sun.",
+      "imageURL": "https://images.pexels.com/photos/259967/pexels-photo-259967.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/1/16/Peru_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "China",
+    "clues": {
+      "fact": "I built a great wall to protect my borders, stretching thousands of kilometers across mountains and deserts.",
+      "imageURL": "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/c/ce/China_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "United Kingdom",
+    "clues": {
+      "fact": "I am an island nation where Big Ben chimes and double-decker buses roam the streets of my capital.",
+      "imageURL": "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/8/8c/UK_outline_map.svg"
+    }
+  },
+  {
+    "countryName": "Russia",
+    "clues": {
+      "fact": "I am the largest country in the world, spanning 11 time zones with colorful onion domes in my capital's main square.",
+      "imageURL": "https://images.pexels.com/photos/753339/pexels-photo-753339.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Russia_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Spain",
+    "clues": {
+      "fact": "I am famous for flamenco dancing, bullfighting, and a unique architectural style with colorful mosaics in Barcelona.",
+      "imageURL": "https://images.pexels.com/photos/460621/pexels-photo-460621.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Spain_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Turkey",
+    "clues": {
+      "fact": "I bridge two continents and my largest city was once the capital of two great empires, famous for its grand bazaar.",
+      "imageURL": "https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Turkey_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Mexico",
+    "clues": {
+      "fact": "I am home to ancient pyramids built by civilizations that created a precise calendar and worshipped feathered serpents.",
+      "imageURL": "https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Mexico_blank_map.svg"
+    }
+  },
+  {
+    "countryName": "Canada",
+    "clues": {
+      "fact": "I am known for my maple syrup, vast wilderness, and spectacular waterfalls on my border with my southern neighbor.",
+      "imageURL": "https://images.pexels.com/photos/1680247/pexels-photo-1680247.jpeg",
+      "outlineURL": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Canada_blank_map.svg"
+    }
+  }
+]

@@ -825,7 +825,6 @@ function App() {
           />
         </div>
         <div className="guesses-container">
-          <h2>Your Journey So Far:</h2>
           <GuessesList guessedCountries={guessedCountries} />
         </div>
         
